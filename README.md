@@ -8,7 +8,7 @@ O sistema foi estruturado seguindo princípios de **Clean Architecture**, separa
 ## 🚀 Tecnologias Utilizadas
 - [.NET 8](https://dotnet.microsoft.com/)
 - [Entity Framework Core](https://learn.microsoft.com/ef/)
-- [SQL Server / PostgreSQL] (ajustar conforme banco configurado)
+- [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)
 - [xUnit](https://xunit.net/) para testes
 - [Docker](https://www.docker.com/) para containerização
 - [Swagger](https://swagger.io/) para documentação de endpoints
