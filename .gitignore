@@ -1,0 +1,68 @@
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+*.dll
+*.exe
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+*.config
+
+## Visual Studio Code
+.vscode/
+
+## ASP.NET Core
+appsettings.Development.json
+appsettings.*.json
+
+## Packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.cache
+*.pdb
+
+## Publish
+publish/
+out/
+wwwroot/dist/
+wwwroot/node_modules/
+wwwroot/lib/
+
+## Node (se usar no front do projeto)
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+## Mac / Linux
+.DS_Store
+*.swp
+*.swo
+
+## Resharper / Rider
+_ReSharper*/
+*.DotSettings.user
+
+## Testes
+TestResult*/
+*.coverage
+*.coveragexml
+*.trx
+
+## Outros
+*.tmp
+*.bak
+*.obj
+*.log
