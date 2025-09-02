@@ -80,16 +80,16 @@ namespace CursoIdiomas.API.Controllers
         }
 
         [HttpGet("buscarTurmaPorId/{id}")] 
-        public TurmaResponse BuscarTurmaPorId(Guid id)
+        public IActionResult BuscarTurmaPorId(Guid id)
         {
             try
             {
                 var response = _turmaService.BuscarTurmaPorId(id);
-                return response;
+                return Ok(response);
             }
             catch (ApplicationException ex)
             {
-                throw new Exception(ex.Message);
+                return  StatusCode(400, ex.Message);
             }
             catch (Exception ex)
             {
