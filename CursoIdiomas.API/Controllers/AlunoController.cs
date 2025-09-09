@@ -88,11 +88,13 @@ namespace CursoIdiomas.API.Controllers
         }
 
         [HttpGet("buscarTodasAlunos")] 
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
+            if(pageSize > 20)
+                return StatusCode(400, "O tamanho da página não pode ser maior que 20.");
             try
             {
-                var response = _alunoService.BuscarAlunos();
+                var response = _alunoService.BuscarAlunos(pageNumber, pageSize);
                 return Ok(response);
             }
             catch (ApplicationException ex)

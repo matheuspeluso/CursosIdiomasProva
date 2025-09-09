@@ -8,6 +8,6 @@ namespace CursoIdiomas.Domain.Interfacies.Services
         AlunoResponse AtualizarAluno(Guid id, AlunoRequest request);
         AlunoResponse ExcluirAluno(Guid id);
         AlunoResponse BuscarAlunoPorId(Guid id);
-        List<AlunoResponse> BuscarAlunos();
+        List<AlunoResponse> BuscarAlunos(int pageNumber, int pageSize);
     }
 }

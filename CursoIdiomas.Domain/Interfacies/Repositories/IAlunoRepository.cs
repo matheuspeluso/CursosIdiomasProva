@@ -13,8 +13,9 @@ namespace CursoIdiomas.Domain.Interfacies.Repositories
         void Update(Aluno aluno);
         void Remove(Aluno aluno);
         Aluno GetById(Guid id);
-        IEnumerable<Aluno> GetAll();
+        IEnumerable<Aluno> GetAll(int pageNumber, int pageSize);
         Aluno? GetByCpf(string cpf);
-
+        bool ExistAlunoComMesmoEmail(string email);
+        bool ExistAlunoComMesmoEmailEIdDiferente(string email, Guid id);
     }
 }

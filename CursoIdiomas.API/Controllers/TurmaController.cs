@@ -98,20 +98,22 @@ namespace CursoIdiomas.API.Controllers
         }
 
         [HttpGet("buscarTodasTurmas")]
-        public List<TurmaResponse> BuscarTodasTurmas()
+        public IActionResult BuscarTodasTurmas([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
+            if(pageSize > 20)
+                return StatusCode(400, "O tamanho da página não pode ser maior que 20.");
             try
             {
-                var response  = _turmaService.BuscarTodasTurmas();
-                return response;
+                var response  = _turmaService.BuscarTodasTurmas(pageNumber, pageSize);
+                return Ok(response);
             }
             catch (ApplicationException ex)
             {
-                throw new Exception(ex.Message);
+               return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+               return StatusCode(500, ex.Message);
             }
         }
     }

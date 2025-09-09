@@ -14,11 +14,13 @@ namespace CursoIdiomas.Domain.Services
     {
         private readonly IAlunoRepository _alunoRepository;
         private readonly IAlunoTurmaRepository _alunoTurmaRepository;
+        private readonly ITurmaRepository _turmaRepository;
 
-        public AlunoService(IAlunoRepository alunoRepository, IAlunoTurmaRepository alunoTurmaRepository)
+        public AlunoService(IAlunoRepository alunoRepository, IAlunoTurmaRepository alunoTurmaRepository, ITurmaRepository turmaRepository)
         {
             _alunoRepository = alunoRepository;
             _alunoTurmaRepository = alunoTurmaRepository;
+            _turmaRepository = turmaRepository;
         }
 
         public AlunoResponse CadastrarAluno(AlunoRequest request)
@@ -26,10 +28,20 @@ namespace CursoIdiomas.Domain.Services
             if (request.TurmasIds is null || !request.TurmasIds.Any())
                 throw new ApplicationException("Aluno deve pertencer a pelo menos uma turma.");
 
+            foreach (var turmaId in request.TurmasIds)
+            {
+                var turma = _turmaRepository.GetById(turmaId);
+                if (turma is null)
+                    throw new ApplicationException("Não foi possivel encontrar a turma informada.");
+            }
+
             var verificarCpfCadastrado = _alunoRepository.GetByCpf(request.Cpf);
             if (verificarCpfCadastrado is not null)
                 throw new ApplicationException("Cpf já cadastrado.");
 
+            if(_alunoRepository.ExistAlunoComMesmoEmail(request.Email))
+                throw new ApplicationException("Email ja cadastrado.");
+            
             var aluno = new Aluno()
             {
                 Nome = request.Nome,
@@ -171,9 +183,9 @@ namespace CursoIdiomas.Domain.Services
             };
         }
 
-        public List<AlunoResponse> BuscarAlunos()
+        public List<AlunoResponse> BuscarAlunos(int pageNumber, int pageSize)
         {
-            var alunos = _alunoRepository.GetAll();
+            var alunos = _alunoRepository.GetAll(pageNumber, pageSize);
             return alunos.Select(aluno => new AlunoResponse()
             {
                 Id = aluno.Id,

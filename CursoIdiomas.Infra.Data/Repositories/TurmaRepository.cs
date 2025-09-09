@@ -27,12 +27,16 @@ namespace CursoIdiomas.Infra.Data.Repositories
         }
 
 
-        public IEnumerable<Turma> GetAll()
+        public IEnumerable<Turma> GetAll(int pageNumber, int pageSize)
         {
             return _context.Set<Turma>()
                 .Include(t => t.AlunoTurmas)
-                .ThenInclude(at=> at.Aluno)
-                .ToList();
+                    .ThenInclude(at=> at.Aluno)
+            #region Paginação
+                    .Skip((pageNumber -1) * pageSize) // pula quantidade de registros
+                    .Take(pageSize) // pega quantos registros queremos
+            #endregion
+                    .ToList();    
         }
 
         public Turma GetById(Guid id)
@@ -43,7 +47,7 @@ namespace CursoIdiomas.Infra.Data.Repositories
                 .FirstOrDefault(t => t.Id == id);
 
             if(turma is null)
-                throw new ApplicationException("Turma não encontrada.");
+                throw new ApplicationException("Não foi possivel encontrar a turma informada.");
 
             return turma;
         }

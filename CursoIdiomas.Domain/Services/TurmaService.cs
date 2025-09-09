@@ -64,9 +64,9 @@ namespace CursoIdiomas.Domain.Services
           
         }
 
-        public List<TurmaResponse> BuscarTodasTurmas()
+        public List<TurmaResponse> BuscarTodasTurmas(int pageNumber, int pageSize)
         {
-            var turmas = _turmaRepository.GetAll();
+            var turmas = _turmaRepository.GetAll(pageNumber, pageSize);
             return turmas.Select(turma => new TurmaResponse
             {
                 Id = turma.Id,

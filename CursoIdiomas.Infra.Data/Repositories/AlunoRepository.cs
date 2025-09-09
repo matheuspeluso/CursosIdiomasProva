@@ -20,12 +20,14 @@ namespace CursoIdiomas.Infra.Data.Repositories
             _context.SaveChanges();
         }
 
-        public IEnumerable<Aluno> GetAll()
+        public IEnumerable<Aluno> GetAll(int pageNumber, int pageSize)
         {
             return _context.Set<Aluno>()
                 .Where(al=> al.DataExclusao == null)
                 .Include(a => a.AlunoTurmas.Where(at=> at.DataExclusao == null))
                 .ThenInclude(at => at.Turma)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
         }
 
@@ -73,6 +75,20 @@ namespace CursoIdiomas.Infra.Data.Repositories
         {
             return _context.Set<Aluno>()
                 .FirstOrDefault(a => a.Cpf == cpf);
+        }
+
+        public bool ExistAlunoComMesmoEmail(string email)
+        {
+            var aluno = _context.Set<Aluno>()
+                .Where(a => a.Email.ToLower() == email.ToLower())
+                .FirstOrDefault();
+            
+            return aluno is not null;
+        }
+
+        public bool ExistAlunoComMesmoEmailEIdDiferente(string email, Guid id)
+        {
+            return _context.Set<Aluno>().Any(a=> a.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && a.Id != id);
         }
     }
 }

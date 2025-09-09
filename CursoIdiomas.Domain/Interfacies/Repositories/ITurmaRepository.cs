@@ -8,7 +8,7 @@ namespace CursoIdiomas.Domain.Interfacies.Repositories
         void Update(Turma turma);
         void Delete(Turma turma);
         Turma GetById(Guid id);
-        IEnumerable<Turma> GetAll();
+        IEnumerable<Turma> GetAll(int pageNumber, int pageSize);
         bool ExistTurmaMesmoNumero(string numero);
         bool ExistTurmaMesmoNumeroComIdDiferente(string numero, Guid id);
     }

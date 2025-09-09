@@ -8,6 +8,6 @@ namespace CursoIdiomas.Domain.Interfacies.Services
         TurmaResponse AtualizarTurma(Guid id, TurmaRequest request);
         TurmaResponse ExcluirTurma(Guid id);
         TurmaResponse BuscarTurmaPorId(Guid id);
-        List<TurmaResponse> BuscarTodasTurmas();
+        List<TurmaResponse> BuscarTodasTurmas(int pageNumber, int pageSize);
     }
 }
