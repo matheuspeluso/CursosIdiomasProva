@@ -13,8 +13,8 @@ namespace CursoIdiomas.Infra.Data.Mappings
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id).HasColumnName("ID").IsRequired();
-            builder.Property(x => x.Numero).HasColumnName("NUMERO").HasColumnType("TEXT").IsRequired();
-            builder.Property(x => x.AnoLetivo).HasColumnName("ANO_LETIVO").HasColumnType("TEXT").IsRequired();
+            builder.Property(x => x.Numero).HasColumnName("NUMERO").HasColumnType("VARCHAR(10)").IsRequired();
+            builder.Property(x => x.AnoLetivo).HasColumnName("ANO_LETIVO").HasColumnType("VARCHAR(10)").IsRequired();
             builder.Property(x=> x.DataExclusao).HasColumnName("DATA_EXCLUSAO").HasColumnType("DATE");
 
             builder.HasIndex(x => x.Numero).IsUnique();

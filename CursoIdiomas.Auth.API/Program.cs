@@ -21,11 +21,8 @@ builder.Services.AddCors(options => {
 });
 
 builder.Services.AddDbContext<ApplicationContext>();
-builder.Services.AddTransient<IAlunoRepository, AlunoRepository>();
-builder.Services.AddTransient<ITurmaRepository, TurmaRepository>();
-builder.Services.AddTransient<IAlunoTurmaRepository, AlunoTurmaRepository>();
-builder.Services.AddTransient<IAlunoService, AlunoService>();
-builder.Services.AddTransient<ITurmaService, TurmaService>();
+builder.Services.AddTransient<IUsuarioService, UsuarioService>();
+builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 
 var app = builder.Build();
 
@@ -45,5 +42,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-public partial class Program { }

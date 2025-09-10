@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CursoIdiomas.API\CursoIdiomas.API.csproj" />
+    <ProjectReference Include="..\CursoIdiomas.Auth.API\CursoIdiomas.Auth.API.csproj" />
     <ProjectReference Include="..\CursoIdiomas.Domain\CursoIdiomas.Domain.csproj" />
   </ItemGroup>
 
