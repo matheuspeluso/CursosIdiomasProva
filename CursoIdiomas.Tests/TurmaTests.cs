@@ -14,8 +14,11 @@ namespace CursoIdiomas.Tests
         [Fact]
         public void DeveCriarTurmaComSucesso()
         {
+            var client = new WebApplicationFactory<Program>().CreateClient();//criando o client http
+                 
+
             #region Criar os dados do test
-            
+
             var faker = new Faker("pt_BR");
             
 
@@ -32,7 +35,6 @@ namespace CursoIdiomas.Tests
 
             #region Realizar a requisição de teste
 
-            var client = new WebApplicationFactory<Program>().CreateClient();//criando o client http
             var response = client.PostAsync("/api/Turma/cadastrarTurma", jsonRequest)?.Result;
 
             #endregion

@@ -1,5 +1,6 @@
 ﻿using CursoIdiomas.Domain.Dtos;
 using CursoIdiomas.Domain.Interfacies.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CursoIdiomas.API.Controllers
@@ -16,6 +17,7 @@ namespace CursoIdiomas.API.Controllers
         }
 
         [HttpPost("cadastrarTurma")]
+        [Authorize]
         public IActionResult Post([FromBody]TurmaRequest request)
         {
             if(!ModelState.IsValid)
@@ -39,6 +41,7 @@ namespace CursoIdiomas.API.Controllers
         }
 
         [HttpPut("atualizarTurma/{id}")]
+        [Authorize]
         public IActionResult Put(Guid id, [FromBody] TurmaRequest request)
         {
             if (!ModelState.IsValid)
@@ -61,7 +64,8 @@ namespace CursoIdiomas.API.Controllers
             }
         }
 
-        [HttpDelete("excluirTurma/{id}")] 
+        [HttpDelete("excluirTurma/{id}")]
+        [Authorize]
         public IActionResult Delete(Guid id)
         {
             try
@@ -79,7 +83,8 @@ namespace CursoIdiomas.API.Controllers
             }
         }
 
-        [HttpGet("buscarTurmaPorId/{id}")] 
+        [HttpGet("buscarTurmaPorId/{id}")]
+        [Authorize]
         public IActionResult BuscarTurmaPorId(Guid id)
         {
             try
@@ -98,6 +103,7 @@ namespace CursoIdiomas.API.Controllers
         }
 
         [HttpGet("buscarTodasTurmas")]
+        [Authorize]
         public IActionResult BuscarTodasTurmas([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             if(pageSize > 20)

@@ -1,5 +1,6 @@
 ﻿using CursoIdiomas.Domain.Dtos;
 using CursoIdiomas.Domain.Interfacies.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace CursoIdiomas.Auth.API.Controllers
         }
 
         [HttpPost("Criar")]
+        [AllowAnonymous]
         public IActionResult CriarUsuario(CriarUsuarioRequest request)
         {
             try
@@ -31,6 +33,7 @@ namespace CursoIdiomas.Auth.API.Controllers
 
 
         [HttpPost("Autenticar")]
+        [AllowAnonymous]
         public IActionResult AutenticarUsuario(AutenticarUsuarioRequest request)
         {
             try

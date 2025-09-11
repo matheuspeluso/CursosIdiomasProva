@@ -1,5 +1,6 @@
 ﻿using CursoIdiomas.Domain.Dtos;
 using CursoIdiomas.Domain.Interfacies.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CursoIdiomas.API.Controllers
@@ -16,6 +17,7 @@ namespace CursoIdiomas.API.Controllers
         }
 
         [HttpPost("cadastrarAluno")]
+        [Authorize]
         public IActionResult Post(AlunoRequest request)
         {
             try
@@ -34,6 +36,7 @@ namespace CursoIdiomas.API.Controllers
         }
 
         [HttpPut("atualizarAluno/{id}")]
+        [Authorize]
         public async Task<IActionResult> Put(Guid id, [FromBody] AlunoRequest request)
         {
             try
@@ -51,7 +54,8 @@ namespace CursoIdiomas.API.Controllers
             }
         }
 
-        [HttpDelete("excluirAluno/{id}")] 
+        [HttpDelete("excluirAluno/{id}")]
+        [Authorize]
         public IActionResult Delete(Guid id)
         {
             try
@@ -69,7 +73,8 @@ namespace CursoIdiomas.API.Controllers
             }
         }
 
-        [HttpGet("buscarAluno/{id}")] 
+        [HttpGet("buscarAluno/{id}")]
+        [Authorize]
         public IActionResult Get(Guid id)
         {
             try
@@ -87,7 +92,8 @@ namespace CursoIdiomas.API.Controllers
             }
         }
 
-        [HttpGet("buscarTodasAlunos")] 
+        [HttpGet("buscarTodasAlunos")]
+        [Authorize]
         public IActionResult GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             if(pageSize > 20)
