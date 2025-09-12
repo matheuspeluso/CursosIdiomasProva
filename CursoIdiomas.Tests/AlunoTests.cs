@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using CursoIdiomas.Domain.Dtos;
+using CursoIdiomas.Tests.Helpers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -15,8 +16,12 @@ namespace CursoIdiomas.Tests
     public class AlunoTests
     {
         [Fact]
-        public void DeveCriarAlunoComSucesso()
+        public async Task DeveCriarAlunoComSucesso()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var faker = new Faker("pt_BR");
 
             #region Cadastrar turma para pegar o id
@@ -28,7 +33,6 @@ namespace CursoIdiomas.Tests
             };
 
             var jsonTurmaRequest = new StringContent(JsonConvert.SerializeObject(turmaRequest), Encoding.UTF8, "application/json");
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var turmaResponse = client.PostAsync("/api/Turma/cadastrarTurma", jsonTurmaRequest)?.Result;
 
             turmaResponse?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -58,8 +62,12 @@ namespace CursoIdiomas.Tests
         }
 
         [Fact]
-        public void NaoDeveCadastrarAlunoSemTurma()
+        public async Task NaoDeveCadastrarAlunoSemTurma()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var faker = new Faker("pt_BR");
             var request = new AlunoRequest
             {
@@ -70,14 +78,17 @@ namespace CursoIdiomas.Tests
             };
 
             var jsonRequest = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var response = client.PostAsync("/api/Aluno/cadastrarAluno", jsonRequest)?.Result;
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         }
 
         [Fact]
-        public void NaoDeveCadastrarAlunoComTurmaInvalida()
+        public async Task NaoDeveCadastrarAlunoComTurmaInvalida()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var faker = new Faker("pt_BR");
             var request = new AlunoRequest
             {
@@ -88,7 +99,6 @@ namespace CursoIdiomas.Tests
             };
 
             var jsonRequest = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var response = client.PostAsync("/api/Aluno/cadastrarAluno", jsonRequest)?.Result;
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
 
@@ -97,8 +107,12 @@ namespace CursoIdiomas.Tests
         }
 
         [Fact]
-        public void NaoDeveCadastrarAlunoComCpfRepetido()
+        public async Task NaoDeveCadastrarAlunoComCpfRepetido()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var faker = new Faker("pt_BR");
             var cpf = faker.Random.Replace("###########").ToString();
 
@@ -112,7 +126,6 @@ namespace CursoIdiomas.Tests
 
 
             var jsonTurmaRequest = new StringContent(JsonConvert.SerializeObject(turmaRequest), Encoding.UTF8, "application/json");
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var turmaResponse = client.PostAsync("/api/Turma/cadastrarTurma", jsonTurmaRequest)?.Result;
 
             turmaResponse?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

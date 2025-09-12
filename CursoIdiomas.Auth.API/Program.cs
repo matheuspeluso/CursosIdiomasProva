@@ -105,3 +105,7 @@ app.MapControllers();
 
 app.Run();
 
+namespace CursosIdiomas.Auth.API
+{
+    public partial class Program { }
+}

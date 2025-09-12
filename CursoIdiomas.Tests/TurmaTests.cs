@@ -1,10 +1,12 @@
 ﻿using Bogus;
 using Bogus.Extensions.Brazil;
 using CursoIdiomas.Domain.Dtos;
+using CursoIdiomas.Tests.Helpers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Text;
+using System.Threading.Tasks;
 
 
 namespace CursoIdiomas.Tests
@@ -12,10 +14,12 @@ namespace CursoIdiomas.Tests
     public class TurmaTests
     {
         [Fact]
-        public void DeveCriarTurmaComSucesso()
+        public async Task DeveCriarTurmaComSucesso()
         {
-            var client = new WebApplicationFactory<Program>().CreateClient();//criando o client http
-                 
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 
             #region Criar os dados do test
 
@@ -48,8 +52,12 @@ namespace CursoIdiomas.Tests
         }
 
         [Fact]
-        public void NaoDeveCriarTurmaComNUmeroRepetido()
+        public async Task NaoDeveCriarTurmaComNUmeroRepetido()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var faker = new Faker("pt_BR");
             var numero = faker.Random.String2(3, 8, "0123456789");
 
@@ -62,7 +70,6 @@ namespace CursoIdiomas.Tests
 
             var jsonRequest = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
-            var client = new WebApplicationFactory<Program>().CreateClient();//criando o client http
             var response = client.PostAsync("/api/Turma/cadastrarTurma", jsonRequest)?.Result;
 
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -78,8 +85,12 @@ namespace CursoIdiomas.Tests
         }
 
         [Fact]
-        public void NaoDeveCriarTurmaComNumeroEAnoLetivoInvalidos()
+        public async Task NaoDeveCriarTurmaComNumeroEAnoLetivoInvalidos()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var request = new TurmaRequest
             {
                 Numero = "1",
@@ -88,24 +99,30 @@ namespace CursoIdiomas.Tests
 
             var jsonRequest = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var response = client.PostAsync("/api/Turma/cadastrarTurma", jsonRequest)?.Result;
 
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         }
 
         [Fact]
-        public void DeveListarTodasTurmasComSucesso()
+        public async Task DeveListarTodasTurmasComSucesso()
         {
-            var client = new WebApplicationFactory<Program>().CreateClient();
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var response = client.GetAsync("/api/Turma/buscarTodasTurmas")?.Result;
 
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
 
         [Fact]
-        public void DeveBuscarTurmoPorIdComSucesso()
+        public async Task DeveBuscarTurmoPorIdComSucesso()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var faker = new Faker("pt_BR");
 
 
@@ -117,7 +134,6 @@ namespace CursoIdiomas.Tests
 
             var jsonRequest = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var response = client.PostAsync("/api/Turma/cadastrarTurma", jsonRequest)?.Result;
             
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -131,17 +147,23 @@ namespace CursoIdiomas.Tests
         }
 
         [Fact]
-        public void NaoDeveBuscarTurmaPorIdInexistente()
+        public async Task NaoDeveBuscarTurmaPorIdInexistente()
         {
-            var client = new WebApplicationFactory<Program>().CreateClient();
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var response = client.GetAsync("/api/Turma/buscarTurmaPorId/"+Guid.NewGuid())?.Result;
 
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         }
 
         [Fact]
-        public void DeveExcluirTurmaComSucesso()
+        public async Task DeveExcluirTurmaComSucesso()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var faker = new Faker("pt_BR");
 
 
@@ -153,7 +175,6 @@ namespace CursoIdiomas.Tests
 
             var jsonRequest = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var response = client.PostAsync("/api/Turma/cadastrarTurma", jsonRequest)?.Result;
 
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -172,8 +193,12 @@ namespace CursoIdiomas.Tests
         }
 
         [Fact]
-        public void NaoDeveExcluirTurmaQueTenhaAlunosMatriculados()
+        public async Task NaoDeveExcluirTurmaQueTenhaAlunosMatriculados()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             #region Criar requisição de turma
 
             var faker = new Faker("pt_BR");
@@ -185,7 +210,6 @@ namespace CursoIdiomas.Tests
 
             var jsonRequest = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var response = client.PostAsync("/api/Turma/cadastrarTurma", jsonRequest)?.Result;
 
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -224,10 +248,15 @@ namespace CursoIdiomas.Tests
         }
 
         [Fact]
-        public void DeveEditarTurmaComSucesso()
+        public async Task DeveEditarTurmaComSucesso()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             #region Cadastrar turma
-            
+
             var faker = new Faker("pt_BR");
             var requestCriacao = new TurmaRequest
             {
@@ -236,7 +265,6 @@ namespace CursoIdiomas.Tests
             };
 
             var jsonRequestCriacao = new StringContent(JsonConvert.SerializeObject(requestCriacao), Encoding.UTF8, "application/json");
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var response = client.PostAsync("/api/Turma/cadastrarTurma", jsonRequestCriacao)?.Result;
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
@@ -263,8 +291,12 @@ namespace CursoIdiomas.Tests
         }
 
         [Fact]
-        public void DeveEditarTurmaComMesmoNumero()
+        public async Task DeveEditarTurmaComMesmoNumero()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             #region Cadastrar turma
 
             var faker = new Faker("pt_BR");
@@ -276,7 +308,6 @@ namespace CursoIdiomas.Tests
             };
 
             var jsonRequestCriacao = new StringContent(JsonConvert.SerializeObject(requestCriacao), Encoding.UTF8, "application/json");
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var response = client.PostAsync("/api/Turma/cadastrarTurma", jsonRequestCriacao)?.Result;
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
@@ -303,8 +334,12 @@ namespace CursoIdiomas.Tests
         }
 
         [Fact]
-        public void NaoDeveEditarTurmaComNumeroJaExistente()
+        public async Task NaoDeveEditarTurmaComNumeroJaExistente()
         {
+            var client = new WebApplicationFactory<CursoIdiomas.API.Program>().CreateClient();
+            var token = await AuthHelper.ObterTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             var faker = new Faker("pt_BR");
             var numeroTurma1 = faker.Random.String2(3, 8, "0123456789");
             var numeroTurma2 = faker.Random.String2(3, 8, "0123456789");
@@ -318,7 +353,6 @@ namespace CursoIdiomas.Tests
             };
 
             var jsonRequestCriacao = new StringContent(JsonConvert.SerializeObject(requestCriacao), Encoding.UTF8, "application/json");
-            var client = new WebApplicationFactory<Program>().CreateClient();
             var response = client.PostAsync("/api/Turma/cadastrarTurma", jsonRequestCriacao)?.Result;
             response?.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
