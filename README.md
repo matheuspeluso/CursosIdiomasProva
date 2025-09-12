@@ -1,7 +1,9 @@
 # 📚 CursoIdiomas - Sistema de Gerenciamento de Cursos de Idiomas
 
-Este projeto é uma API desenvolvida em **.NET 8** para gerenciar cursos de idiomas, permitindo o cadastro de **alunos** e **turmas**, além do relacionamento entre eles.  
-O sistema foi estruturado seguindo princípios de **Clean Architecture**, separando responsabilidades em camadas de **API, Domain, Infra.Data** e **Tests**.
+Este projeto é uma API microsserviços  desenvolvida em **.NET 8** para gerenciar cursos de idiomas, permitindo o cadastro de alunos e turmas, além do relacionamento entre eles.
+O sistema foi estruturado seguindo princípios de **Clean Architecture**, separando responsabilidades em camadas de API, Domain, Infra.Data e Tests.
+
+Agora, o projeto inclui também uma segunda **API de autenticação**, permitindo a criação e login de usuários, com suporte a JWT para autenticação e segurança nos endpoints.
 
 ---
 
@@ -16,10 +18,10 @@ O sistema foi estruturado seguindo princípios de **Clean Architecture**, separa
 ---
 
 ## 📂 Estrutura do Projeto
-
+```bash
 ├── CursoIdiomas.API # Camada de apresentação (Controllers, Program.cs)
 │ └── Controllers # AlunoController, TurmaController
-│
+├── CursoIdiomas.Auth.API    # Nova API de autenticação (Cadastro e Autenticação com JWT)
 ├── CursoIdiomas.Domain # Regras de negócio
 │ ├── Entities # Entidades: Aluno, Turma, AlunoTurma
 │ ├── Dtos # DTOs de entrada e saída
@@ -32,12 +34,13 @@ O sistema foi estruturado seguindo princípios de **Clean Architecture**, separa
 │ ├── Mappings # Configurações de mapeamento EF Core
 │ └── Migrations # Histórico de migrations
 │
-├── CursoIdiomas.Tests # Testes automatizados
+├── CursoIdiomas.Tests # Testes de Integração com Xunit
 │ └── TurmaTests.cs
+├── Helpers # Classe AuthHelper.cs usada para autenticar na api e retornar um token JWT para ser usado nos testes.
 │
-├── docker-compose.yml # Subida do ambiente com Docker
+├── docker-compose.yml # arquivo para subir o banco de dados SQL Server
 └── CursoIdiomas.sln # Solução do Visual Studio
-
+```
 ---
 ## ⚙️ Configuração do Ambiente
 
