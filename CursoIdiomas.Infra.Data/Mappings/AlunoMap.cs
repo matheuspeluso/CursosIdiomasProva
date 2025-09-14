@@ -31,11 +31,7 @@ namespace CursoIdiomas.Infra.Data.Mappings
                 x.Email
             });
 
-            builder.HasMany(x => x.AlunoTurmas).WithOne(x => x.Aluno).HasForeignKey(x => x.AlunoId);
-
-            builder.Property(x => x.RowVersion)
-           .IsRowVersion()
-           .IsConcurrencyToken();
+            builder.HasMany(x => x.AlunoTurmas).WithOne(x => x.Aluno).HasForeignKey(x => x.AlunoId);  
         }
     }
 }

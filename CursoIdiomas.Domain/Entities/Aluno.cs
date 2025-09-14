@@ -9,6 +9,5 @@
         public DateTime DataCadastro { get; set; } = DateTime.Now;
         public List<AlunoTurma> AlunoTurmas { get; set; } = new();
         public DateTime? DataExclusao { get; set; } = null;
-        public byte[] RowVersion { get; set; } = Array.Empty<byte>();
     }
 }

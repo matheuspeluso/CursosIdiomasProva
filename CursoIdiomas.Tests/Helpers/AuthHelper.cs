@@ -13,8 +13,8 @@ namespace CursoIdiomas.Tests.Helpers
 
             var loginRequest = new AutenticarUsuarioRequest
             {
-                Email = "matheuspeluso17@gmail.com",
-                Senha = "Teste@2025"
+                Email = "admin@admin.com",
+                Senha = "Admin@2025"
             };
 
             var loginJson = new StringContent(
