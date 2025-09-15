@@ -1,9 +1,9 @@
 # 📚 CursoIdiomas - Sistema de Gerenciamento de Cursos de Idiomas
 
-Este projeto é uma API microsserviços  desenvolvida em **.NET 8** para gerenciar cursos de idiomas, permitindo o cadastro de alunos e turmas, além do relacionamento entre eles.
+Este projeto trata-se de 2 API microsserviços  desenvolvidas em **.NET 8** para gerenciar cursos de idiomas, permitindo o cadastro de alunos e turmas, além do relacionamento entre eles.
 O sistema foi estruturado seguindo princípios de **Clean Architecture**, separando responsabilidades em camadas de API, Domain, Infra.Data e Tests.
 
-Agora, o projeto inclui também uma segunda **API de autenticação**, permitindo a criação e login de usuários, com suporte a JWT para autenticação e segurança nos endpoints.
+já o segundo projeto é uma **API de autenticação**, permitindo a criação e login de usuários, com suporte a JWT para autenticação e segurança nos endpoints.
 
 ---
 
@@ -59,10 +59,43 @@ Agora, o projeto inclui também uma segunda **API de autenticação**, permitind
 ```
 **Subindo container do docker**
 ```bash
-    docker-compose up -d
+    docker-compose up -d --build
 ```
+
+**Antes de rodar a Migration é necessario trocar a connection string no arquivo ApplicationContext.cs**
+```bash
+         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Data Source=localhost,1433;Initial Catalog=master;Persist Security Info=True;User ID=sa;Password=Prova2025;Encrypt=False"); //CONEXÃO PARA RODAR LOCAL
+            //optionsBuilder.UseSqlServer("Server=sqlserver-db,1433;Database=master;User Id=sa;Password=Prova2025;TrustServerCertificate=True;"); //CONEXÃO PARA RODAR NO DOCKER
+        }
+```
+
 **Adicione o projeto infra.Data como projeto de inicialização, abra o console do nuget e rode o comando abaixo:**
 ```bash
     Update-Database
 ```
-**Adicione novamente a API como projeto de inialização e inicialize o projeto**
+
+**Troque novamente a connection string para a Docker**
+```bash
+         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //optionsBuilder.UseSqlServer("Data Source=localhost,1433;Initial Catalog=master;Persist Security Info=True;User ID=sa;Password=Prova2025;Encrypt=False"); //CONEXÃO PARA RODAR LOCAL
+            optionsBuilder.UseSqlServer("Server=sqlserver-db,1433;Database=master;User Id=sa;Password=Prova2025;TrustServerCertificate=True;"); //CONEXÃO PARA RODAR NO DOCKER
+        }
+```
+
+**Caso o container ainda não esteja online, rode novamente usando o comando:**
+```bash
+    docker-compose up -d --build
+```
+
+**Projeto rodando nas portas:**
+```bash
+    http://localhost:5001/swagger/index.html //apiAuth
+    http://localhost:5000/swagger/index.html //apiCursosIdiomas
+```
+
+**Observações:**
+Os end-points da API CursosIdiomas são bloqueados, e só funcionaram com usuários autenticados, então antes fazer qualquer requisição é necessario criar sua conta no CursoIdiomas.Auth.API , realizar o login,
+e mandar o Bearer token nas requisições do CursosIdiomas.API.
