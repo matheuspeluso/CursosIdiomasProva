@@ -14,11 +14,43 @@ services:
       - sqlserver_data:/var/opt/mssql
     restart: unless-stopped
     networks:
-      - db-network
+      - app-network
+
+  cursos-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.cursos
+    container_name: cursos-api
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_RUNNING_IN_CONTAINER=true
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  auth-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.auth
+    container_name: auth-api
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_RUNNING_IN_CONTAINER=true
+    ports:
+      - "5001:5001"
+    networks:
+      - app-network
+    restart: unless-stopped
 
 volumes:
   sqlserver_data:
 
 networks:
-  db-network:
+  app-network:
     driver: bridge

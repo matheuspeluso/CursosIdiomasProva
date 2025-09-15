@@ -1,0 +1,25 @@
+# Etapa de build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copia apenas o csproj e a solução para restaurar as dependências
+COPY CursoIdiomas.Auth.API/CursoIdiomas.Auth.API.csproj CursoIdiomas.Auth.API/
+COPY CursoIdiomas.sln ./
+
+RUN dotnet restore "CursoIdiomas.Auth.API/CursoIdiomas.Auth.API.csproj"
+
+# Copia todo o resto do código
+COPY . .
+WORKDIR /src/CursoIdiomas.Auth.API
+RUN dotnet publish -c Release -o /app/publish
+
+# Etapa de runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# Configura para rodar HTTP na porta 5001
+EXPOSE 5001
+ENV ASPNETCORE_URLS=http://+:5001
+
+ENTRYPOINT ["dotnet", "CursoIdiomas.Auth.API.dll"]
