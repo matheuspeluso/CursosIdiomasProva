@@ -3,6 +3,8 @@
     public class TurmaResponse
     {
         public Guid Id { get; set; }
+        public string? Disciplina { get; set; }
+        public string? Descricao { get; set; }
         public string? Numero { get; set; }
         public string? AnoLetivo { get; set; }
         public DateTime? DataExclusao { get; set; }

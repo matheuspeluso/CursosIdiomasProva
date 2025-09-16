@@ -26,6 +26,8 @@ namespace CursoIdiomas.Domain.Services
             var turma = new Turma
             {
                 Numero = request.Numero,
+                Disciplina = request.Disciplina,
+                Descricao = request.Descricao ?? "",
                 AnoLetivo = request.AnoLetivo
             };
 
@@ -34,6 +36,8 @@ namespace CursoIdiomas.Domain.Services
             return new TurmaResponse
             {
                 Id = turma.Id,
+                Disciplina = turma.Disciplina,
+                Descricao = turma.Descricao,
                 Numero = turma.Numero,
                 AnoLetivo = turma.AnoLetivo
             };
@@ -50,6 +54,8 @@ namespace CursoIdiomas.Domain.Services
                 throw new ApplicationException("Numero da turma informado já está cadastrado em outra turma.");
 
             turma.Numero = request.Numero ?? turma.Numero;
+            turma.Descricao = request.Descricao ?? turma.Descricao;
+            turma.Disciplina = request.Disciplina ?? turma.Disciplina;
             turma.AnoLetivo = request.AnoLetivo ?? turma.AnoLetivo;
 
             _turmaRepository.Update(turma);
@@ -57,9 +63,10 @@ namespace CursoIdiomas.Domain.Services
             return new TurmaResponse
             {
                 Id = turma.Id,
+                Disciplina = turma.Disciplina,
+                Descricao = turma.Descricao,
                 Numero = turma.Numero,
                 AnoLetivo = turma.AnoLetivo
-
             };
           
         }
@@ -70,6 +77,8 @@ namespace CursoIdiomas.Domain.Services
             return turmas.Select(turma => new TurmaResponse
             {
                 Id = turma.Id,
+                Disciplina = turma.Disciplina,
+                Descricao = turma.Descricao,
                 Numero = turma.Numero,
                 AnoLetivo = turma.AnoLetivo
             }).ToList();
@@ -85,6 +94,8 @@ namespace CursoIdiomas.Domain.Services
             return new TurmaResponse
             {
                 Id = turma.Id,
+                Disciplina = turma.Disciplina,
+                Descricao = turma.Descricao,
                 Numero = turma.Numero,
                 AnoLetivo = turma.AnoLetivo,
                 DataExclusao = turma.DataExclusao
@@ -110,6 +121,8 @@ namespace CursoIdiomas.Domain.Services
             return new TurmaResponse
             {
                 Id = turma.Id,
+                Disciplina = turma.Disciplina,
+                Descricao = turma.Descricao,
                 Numero = turma.Numero,
                 AnoLetivo = turma.AnoLetivo,
                 DataExclusao = turma.DataExclusao

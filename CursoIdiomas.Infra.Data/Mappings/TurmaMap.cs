@@ -16,6 +16,8 @@ namespace CursoIdiomas.Infra.Data.Mappings
             builder.Property(x => x.Numero).HasColumnName("NUMERO").HasColumnType("VARCHAR(10)").IsRequired();
             builder.Property(x => x.AnoLetivo).HasColumnName("ANO_LETIVO").HasColumnType("VARCHAR(10)").IsRequired();
             builder.Property(x=> x.DataExclusao).HasColumnName("DATA_EXCLUSAO").HasColumnType("DATE");
+            builder.Property(x=> x.Disciplina).HasColumnName("DISCIPLINA").HasColumnType("VARCHAR(100)").IsRequired();
+            builder.Property(x=> x.Descricao).HasColumnName("DESCRICAO").HasColumnType("VARCHAR(100)");
 
             builder.HasIndex(x => x.Numero).IsUnique();
 

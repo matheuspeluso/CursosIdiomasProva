@@ -16,7 +16,7 @@ namespace CursoIdiomas.Infra.Data.Contexts
         {
             //optionsBuilder.UseSqlServer("Data Source=localhost,1433;Initial Catalog=master;Persist Security Info=True;User ID=sa;Password=Prova2025;Encrypt=False"); //CONEXÃO PARA RODAR LOCAL
             optionsBuilder.UseSqlServer("Server=sqlserver-db,1433;Database=master;User Id=sa;Password=Prova2025;TrustServerCertificate=True;"); //CONEXÃO PARA RODAR NO DOCKER
-            
+
 
         }
 
